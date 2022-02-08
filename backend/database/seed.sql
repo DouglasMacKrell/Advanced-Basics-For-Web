@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS advancedbasicsforweb;
-CREATE DATABASE advancedbasicsforweb;
-\c advancedbasicsforweb;
+-- DROP DATABASE IF EXISTS advancedbasicsforweb;
+-- CREATE DATABASE advancedbasicsforweb;
+-- \c advancedbasicsforweb;
 
 DROP TABLE IF EXISTS classes;
 CREATE TABLE classes (
