@@ -2,64 +2,32 @@ var express = require("express");
 var router = express.Router();
 var classesQueries = require("../queries/classes");
 
-router.get("/all", async (req, res, next) => {
-  try {
-    const classes = await classesQueries.getAllClasses();
-    res.json({
-      status: "success",
-      message: `Classes retrieved!`,
-      payload: classes,
-    });
-  } catch (error) {
-    res.json({
-      status: "failure",
-      message: "Oops! All Errors!!",
-      error: error,
-      payload: null,
-    });
-    throw error;
-  }
+//all ids and titles of active classes
+router.get("/all", async (req, res) => {
+    const allClasses = await classesQueries.getAllClasses();
+    if(allClasses) {
+        res.status(200).json(allClasses)
+    } else {
+        res.status(500).json({error: "Server error"})
+    }
 });
 
+// all data connected to a specific class
 router.get("/:class_id", async (req, res, next) => {
-  try {
-      const classId = req.params.class_id;
+    const classId = req.params.class_id;
     const singleClass = await classesQueries.getClassById(classId);
-    res.json({
-      status: "success",
-      message: `Single Class retrieved!`,
-      payload: singleClass,
-    });
-  } catch (error) {
-    res.json({
-      status: "failure",
-      message: "Oops! All Errors!!",
-      error: error,
-      payload: null,
-    });
-    throw error;
-  }
+    if (singleClass) {
+        res.status(200).json(singleClass)
+    } else {
+        res.status(500).json({error: "Oops, all server errors!"})
+    }
 });
 
-router.get("/learning_objectives/:class_id", async (req, res, next) => {
-  try {
-    const classId = req.params.class_id;
-    const learningObjectives = await classesQueries.getLearningObjectivesByClassId(classId);
-    res.json({
-      status: "success",
-      message: `Single Class Learning Objectives retrieved!`,
-      payload: learningObjectives,
-    });
-  } catch (error) {
-    res.json({
-      status: "failure",
-      message: "Oops! All Errors!!",
-      error: error,
-      payload: null,
-    });
-    throw error;
-  }
-});
+// create a new class with available data
+
+// update a class by id
+
+// delete a class by id
 
 // router.get("/season/:season_id", async (req, res, next) => {
 //   try {
