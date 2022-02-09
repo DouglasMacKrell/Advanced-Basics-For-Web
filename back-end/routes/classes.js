@@ -19,15 +19,77 @@ router.get("/:class_id", async (req, res, next) => {
     if (singleClass) {
         res.status(200).json(singleClass)
     } else {
-        res.status(500).json({error: "Oops, all server errors!"})
+        res.status(404).json({error: "Not found!"})
     }
 });
 
-// create a new class with available data
+// create a new class instance
+router.post("/single_class", async (req, res) => {
+    try {
+        const singleClass = await classesQueries.createClass(req.body)
+        res.json(singleClass)
+    } catch (error) {
+        res.status(400).json({ error: error })
+    }
+})
 
-// update a class by id
+router.post("/learning_objectives", async (req, res) => {
+    try {
+        const learningObjectives = await classesQueries.createLearningObjectives(req.body)
+        res.json(learningObjectives)
+    } catch (error) {
+        res.status(400).json({ error: error })
+    }
+})
 
-// delete a class by id
+router.post("/video_recording", async (req, res) => {
+    try {
+        const videoRecording = await classesQueries.createVideoRecording(req.body)
+        res.json(videoRecording)
+    } catch (error) {
+        res.status(400).json({ error: error })
+    }
+})
+
+router.post("/source_code", async (req, res) => {
+  try {
+    const sourceCode = await classesQueries.createSourceCode(req.body);
+    res.json(sourceCode);
+  } catch (error) {
+    res.status(400).json({ error: error });
+  }
+});
+
+router.post("/outline", async (req, res) => {
+  try {
+    const outline = await classesQueries.createOutline(req.body);
+    res.json(outline);
+  } catch (error) {
+    res.status(400).json({ error: error });
+  }
+});
+
+router.post("/linked_lessons", async (req, res) => {
+    try {
+        const linkedLessons = await classesQueries.createLinkedLessons(req.body)
+        res.json(linkedLessons)
+    } catch (error) {
+        res.status(400).json({ error: error })
+    }
+})
+
+// update a class by class title
+
+
+// delete a class by class title
+router.delete("/delete", async (req, res) => {
+    const deletedClass = classesQueries.deleteClass(req.body)
+    if (deletedClass) {
+        res.status(200).json(deletedClass)
+    } else {
+        res.status(404).json("Class not found")
+    }
+})
 
 // router.get("/season/:season_id", async (req, res, next) => {
 //   try {

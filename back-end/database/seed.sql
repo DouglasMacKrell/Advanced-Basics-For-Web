@@ -1,6 +1,6 @@
--- DROP DATABASE IF EXISTS advancedbasicsforweb;
--- CREATE DATABASE advancedbasicsforweb;
--- \c advancedbasicsforweb;
+DROP DATABASE IF EXISTS advancedbasicsforweb;
+CREATE DATABASE advancedbasicsforweb;
+\c advancedbasicsforweb;
 
 DROP TABLE IF EXISTS classes;
 CREATE TABLE classes (
@@ -13,7 +13,7 @@ CREATE TABLE learning_objectives (
     id SERIAL PRIMARY KEY NOT NULL,
     class_id INT NOT NULL,
     objective_text VARCHAR NOT NULL,
-    FOREIGN KEY (class_id) REFERENCES classes (id)
+    FOREIGN KEY (class_id) REFERENCES classes (id) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS video_recording;
@@ -21,7 +21,7 @@ CREATE TABLE video_recording (
     id SERIAL PRIMARY KEY NOT NULL,
     class_id INT NOT NULL,
     video_url VARCHAR NOT NULL,
-    FOREIGN KEY (class_id) REFERENCES classes (id)
+    FOREIGN KEY (class_id) REFERENCES classes (id) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS source_code;
@@ -29,7 +29,7 @@ CREATE TABLE source_code (
     id SERIAL PRIMARY KEY NOT NULL,
     class_id INT NOT NULL,
     code_url VARCHAR NOT NULL,
-    FOREIGN KEY (class_id) REFERENCES classes (id)
+    FOREIGN KEY (class_id) REFERENCES classes (id) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS outline;
@@ -37,7 +37,7 @@ CREATE TABLE outline (
     id SERIAL PRIMARY KEY NOT NULL,
     class_id INT NOT NULL,
     outline_url VARCHAR NOT NULL,
-    FOREIGN KEY (class_id) REFERENCES classes (id)
+    FOREIGN KEY (class_id) REFERENCES classes (id) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS linked_lessons;
@@ -46,7 +46,7 @@ CREATE TABLE linked_lessons (
     class_id INT NOT NULL,
     link_text VARCHAR NOT NULL,
     link_url VARCHAR,
-    FOREIGN KEY (class_id) REFERENCES classes (id)
+    FOREIGN KEY (class_id) REFERENCES classes (id) ON DELETE CASCADE
 );
 
 INSERT INTO classes (title)
