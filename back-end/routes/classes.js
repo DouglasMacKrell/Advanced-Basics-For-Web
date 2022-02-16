@@ -78,8 +78,55 @@ router.post("/linked_lessons", async (req, res) => {
     }
 })
 
-// update a class by class title
+// update a class by class id
+router.put("/:class_id", async (req, res) => {
+    const classId = req.params.class_id
+    try {
+        const updatedClassTitle = await classesQueries.updateClassTitle(classId, req.body)
+        res.status(200).json(updatedClassTitle)
+    } catch (error) {
+        res.status(400).json({ error: error })
+    }
+})
 
+router.put("/learning_objective/:objective_id", async (req, res) => {
+  const objectiveId = req.params.objective_id;
+  try {
+    const updatedLearningObjective = await classesQueries.updateLearningObjective(
+      objectiveId,
+      req.body
+    );
+    res.status(200).json(updatedLearningObjective);
+  } catch (error) {
+    res.status(400).json({ error: error });
+  }
+});
+
+router.put("/video_recording/:video_id", async (req, res) => {
+  const videoId = req.params.video_id;
+  try {
+    const updatedVideoRecording = await classesQueries.updateVideoRecording(
+      videoId,
+      req.body
+    );
+    res.status(200).json(updatedVideoRecording);
+  } catch (error) {
+    res.status(400).json({ error: error });
+  }
+});
+
+router.put("/source_code/:code_id", async (req, res) => {
+  const codeId = req.params.code_id;
+  try {
+    const updatedSourceCode = await classesQueries.updateSourceCode(
+      codeId,
+      req.body
+    );
+    res.status(200).json(updatedSourceCode);
+  } catch (error) {
+    res.status(400).json({ error: error });
+  }
+});
 
 // delete a class by class title
 router.delete("/delete", async (req, res) => {

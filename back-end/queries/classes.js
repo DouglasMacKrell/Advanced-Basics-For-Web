@@ -19,11 +19,11 @@ const getClassById = async (id) => {
     try {
         let fullClass = {}
         fullClass['class'] = await db.any('SELECT * FROM classes WHERE id=$1', [id]);
-        fullClass['learning_objectives'] = await db.any('SELECT objective_text FROM learning_objectives WHERE class_id=$1', [id]);
-        fullClass['video_recording'] = await db.any('SELECT video_url FROM video_recording WHERE class_id=$1', [id]);
-        fullClass['source_code'] = await db.any('SELECT code_url FROM source_code WHERE class_id=$1', [id]);
-        fullClass['outline'] = await db.any('SELECT outline_url FROM outline WHERE class_id=$1', [id]);
-        fullClass['linked_lessons'] = await db.any('SELECT link_text, link_url FROM linked_lessons WHERE class_id=$1', [id]);
+        fullClass['learning_objectives'] = await db.any('SELECT id, objective_text FROM learning_objectives WHERE class_id=$1', [id]);
+        fullClass['video_recording'] = await db.any('SELECT id, video_url FROM video_recording WHERE class_id=$1', [id]);
+        fullClass['source_code'] = await db.any('SELECT id, code_url FROM source_code WHERE class_id=$1', [id]);
+        fullClass['outline'] = await db.any('SELECT id, outline_url FROM outline WHERE class_id=$1', [id]);
+        fullClass['linked_lessons'] = await db.any('SELECT id, link_text, link_url FROM linked_lessons WHERE class_id=$1', [id]);
         return fullClass
     } catch (error) {
         return error
@@ -95,9 +95,7 @@ const createLinkedLessons = async (linkedLessons) => {
   let classId = await db.any("SELECT id FROM classes WHERE title=$1", [
     linkedLessons.title,
   ]);
-  const cs = new pgp.helpers.ColumnSet(["class_id", "link_text", "link_url"], {
-    table: "linked_lessons",
-  });
+  const cs = new pgp.helpers.ColumnSet(["class_id", "link_text", "link_url"], {table: "linked_lessons",});
   const values = linkedLessons.links.map((obj) => {
     return { class_id: classId[0].id, link_text: obj.link_text, link_url: obj.link_url};
   });
@@ -106,12 +104,52 @@ const createLinkedLessons = async (linkedLessons) => {
 };
 
 // PUT
+const updateClassTitle = async (id, singleClass) => {
+    try {
+        const updatedClassTitle = await db.one("UPDATE classes SET title=$1 WHERE id=$2 RETURNING *", [singleClass.title, id])
+        return updatedClassTitle
+    } catch (error) {
+        return error
+    }
+}
 
+const updateLearningObjective = async (id, learningObjective) => {
+  try {
+    const updatedLearningObjective = await db.one("UPDATE learning_objectives SET objective_text=$1, class_id=$2 WHERE id=$3 RETURNING *", [learningObjective.objective_text, learningObjective.class_id, id])
+    return updatedLearningObjective
+  } catch (error) {
+    return error
+  }
+}
+
+const updateVideoRecording = async (id, videoRecording) => {
+  try {
+    const updatedVideoRecording = await db.one(
+      "UPDATE video_recording SET video_url=$1, class_id=$2 WHERE id=$3 RETURNING *",
+      [videoRecording.video_url, videoRecording.class_id, id]
+    );
+    return updatedVideoRecording;
+  } catch (error) {
+    return error;
+  }
+};
+
+const updateSourceCode = async (id, sourceCode) => {
+  try {
+    const updatedSourceCode = await db.one(
+      "UPDATE source_code SET code_url=$1, class_id=$2 WHERE id=$3 RETURNING *",
+      [sourceCode.code_url, sourceCode.class_id, id]
+    );
+    return updatedSourceCode;
+  } catch (error) {
+    return error;
+  }
+};
 
 // DELETE
-const deleteClass = async (title) => {
+const deleteClass = async (singleClass) => {
     try {
-        const deletedClass = await db.one("DELETE FROM classes WHERE title=$1 RETURNING *", [title])
+        const deletedClass = await db.one("DELETE FROM classes WHERE id=$1 RETURNING *", [singleClass.id])
         return deletedClass
     } catch (error) {
         return error
@@ -128,5 +166,9 @@ module.exports = {
     createVideoRecording,
     createSourceCode,
     createOutline,
-    deleteClass
+    deleteClass,
+    updateClassTitle,
+    updateLearningObjective,
+    updateVideoRecording,
+    updateSourceCode
 };
