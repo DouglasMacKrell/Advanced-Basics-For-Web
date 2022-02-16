@@ -1,0 +1,21 @@
+.classCard {
+    padding-bottom: 40px;
+    padding-left: 3rem;
+
+    &__title {
+        text-decoration: underline;
+        padding-bottom: 10px;
+    }
+
+    &__video {
+        padding-top: 20px;
+    }
+
+    &__lessons {
+        padding-top: 20px;
+    }
+}
+
+ol, ul {
+    padding-left: 50px;
+}

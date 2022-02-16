@@ -1,35 +1,59 @@
 import React, { useEffect, useState } from "react";
-
+import LoadingView from "../loadingView/LoadingView";
+import ClassCard from "../classCard/ClassCard";
 
 
 function ClassList() {
 
-    const [classesOverview, setClassesOverview] = useState([])
+    const [classesOverview, setClassesOverview] = useState([]);
+    const [fullClasses, setFullClasses] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetch("http://localhost:3001/api/classes/all")
-        .then((response) => response.json())
-        .then((data) => {
+        .then(response => response.json())
+        .then(data => {
             console.log(data)
+            setLoading(false)
               setClassesOverview(data);
             });
-    }, []);
+    },[]);
     
-    useEffect(() => {
-        let fullClasses = []
-        classesOverview.map(singleClass => {
-            fetch(`http://localhost:3001/api/classes/${singleClass.id}`)
-            .then((response) => response.json())
-            .then((data) => {
-                fullClasses.push(data)
-            })
-        })
-        console.log(fullClasses)
-    }, [classesOverview])
+    // useEffect(() => {
+    //     let capturedClasses = []
+    //     classesOverview.map((singleClass) => {
+    //         console.log(singleClass)
+    //         return (
+    //             fetch(`http://localhost:3001/api/classes/${singleClass.id}`)
+    //             .then((response) => response.json())
+    //             .then((data) => {
+    //                 capturedClasses.push(data)
+    //             })
+    //         )
+    //     })
+    //     setLoading(false)
+    //     setFullClasses(capturedClasses)
+    // }, [classesOverview])
 
+    console.log(loading, classesOverview)
   return (
     <div className="classList">
-        ClassList
+        {loading && <LoadingView />}
+
+        {!loading && classesOverview.length > 0 &&
+            classesOverview.map((singleClass, index) => {
+                console.log(singleClass)
+                return (
+                    <div>
+                        <ClassCard
+                            key={index}
+                            classInfo={singleClass}
+                        />
+                    </div>
+                )
+            })
+        
+        }
     </div>
   );
 }

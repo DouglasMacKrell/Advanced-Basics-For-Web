@@ -1,0 +1,5 @@
+@import '../../styleUtils/layouts.scss';
+
+.loadingView {
+   @include center-and-bold;
+}
