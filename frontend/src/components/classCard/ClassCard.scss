@@ -1,10 +1,19 @@
 .classCard {
     padding-bottom: 40px;
+    margin: 50px;
+    margin-bottom: 75px;
     padding-left: 3rem;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px 5px lightgray;
 
     &__title {
-        text-decoration: underline;
-        padding-bottom: 10px;
+        padding-top: 10px;
+        margin-bottom: 10px;
+        border-bottom: 2px black solid;
+    }
+
+    &__objectives {
+        padding-top: 20px;
     }
 
     &__video {
@@ -18,4 +27,8 @@
 
 ol, ul {
     padding-left: 50px;
+}
+
+a:hover {
+    color: red
 }

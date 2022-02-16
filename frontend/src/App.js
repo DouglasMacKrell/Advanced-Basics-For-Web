@@ -16,9 +16,40 @@ function App() {
       "./closeup-coding6.mp4",
       "./closeup-coding7.mp4",
       "./closeup-coding8.mp4",
+      "./closeup-coding9.mp4",
+      "./closeup-coding10.mp4",
+      "./closeup-coding11.mp4",
+      "./closeup-coding12.mp4",
+      "./closeup-coding13.mp4",
+      "./closeup-coding14.mp4",
+      "./closeup-coding15.mp4",
+      "./closeup-coding16.mp4",
+      "./closeup-coding17.mp4",
+      "./closeup-coding18.mp4",
+      "./closeup-coding19.mp4",
+      "./closeup-coding20.mp4",
+      "./closeup-coding21.mp4",
+      "./closeup-coding22.mp4",
+      "./closeup-coding23.mp4",
+      "./closeup-coding24.mp4",
+      "./closeup-coding25.mp4",
+      "./closeup-coding26.mp4",
+      "./closeup-coding27.mp4",
+      "./closeup-coding28.mp4",
+      "./closeup-coding29.mp4",
+      "./closeup-coding30.mp4",
+      "./closeup-coding31.mp4",
+      "./closeup-coding32.mp4",
+      "./closeup-coding33.mp4",
+      "./closeup-coding34.mp4",
+      "./closeup-coding35.mp4",
+      "./closeup-coding36.mp4",
+      "./closeup-coding37.mp4",
+      "./closeup-coding38.mp4",
+      "./closeup-coding39.mp4"
     ];
 
-    let random = Math.floor(Math.random() * 8);
+    let random = Math.floor(Math.random() * 39);
 
     let randomVideo = videoContainer[random];
 
