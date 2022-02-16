@@ -47,22 +47,42 @@ A single page application to display the data within a dynamic database accessed
 
 * DATABASE
 
-### TABLE: classes
+#### TABLE: classes
 | id | order_id | title |
 |----|----------|-------|
 
+#### TABLE: learning_objectives
+| id | class_id | order_id | objective_text |
+|----|----------|----------|----------------|
 
+#### TABLE: video_recording
+| id | class_id | video_url |
+|----|----------|-----------|
+
+#### TABLE: source_code
+| id | class_id | code_url |
+|----|----------|----------|
+
+#### TABLE: outline
+| id | class_id | outline_url |
+|----|----------|-------------|
+
+#### TABLE: linked_lessons
+| id | class_id | order_id | link_text | link_url |
+|----|----------|----------|-----------|----------|
 
 ## FUTURE FEATURES
 
 * Implement testing on both the front and backend
-* 
+* Portal to Jordan to POST, PUT, and DELETE
 
 ## TECHNICAL MILESTONES
 
 * Using `gsap` to implement a timeline with a ScrollTrigger
 * Hosting `.mp4` video in the public folder
 * Adjusting the duration of animated elements within the `gsap` timeline
+* Creating and implementing a full CRUD API
+* Implementing SCSS for styling
 
 ## TECHNOLOGIES USED
 
@@ -71,27 +91,38 @@ A single page application to display the data within a dynamic database accessed
 * **JavaScript**
 * **HTML5**
 * **CSS3**
-* **SASS** Currently unused, but incorporated to check for unexpected conflicts with `gsap`
+* **SASS**
+* **Node.js && Express.js** HTTP back-end server
+* **pg-promise**
+* **PostreSQL** Database 
 
 ## LOCAL SETUP
 
-**NOTE: You must install [Node.js](https://nodejs.org) in your computer for this to run.**
+**NOTE: You must install [Node.js](https://nodejs.org) as well as [PostgreSQL](https://www.postgresql.org/) in your computer for this to run.**
 
-You can check to see if you already have Node.js by typing `node -v` in your terminal. If your shell/terminal doesn't complain and you see version numbers you are good to go.
+You can check for these dependencies with `node -v` and `psql -v`. If your shell/terminal doesn't complain and you see version numbers you are good to go!
 
 1. Clone this repo into a folder of your choice:
 
-       `git clone https://github.com/DouglasMacKrell/gsap-test.git`
+       `git clone https://github.com/DouglasMacKrell/Advanced-Basics-For-Web.git`
 
 2. Install dependencies:
 
-       `npm install`
+       `cd frontend && npm install && cd .. && cd back-end && npm install`
 
-3. To launch the React App, enter:
+3. Seed database:
+
+       `cd database && psql -f ./seed.sql`
+
+4. To launch the Express Server, enter:
+
+       `cd .. && npm start`
+
+5. In a new terminal window, head to `Advanced-Basics-for-Web/frontend` and enter:
 
        `npm start`
 
-4. A new browser tab should have been opened and the App should be running. If that is not the case check the terminals output for errors, if you are unable to troubleshoot the problem, I would be happy to address issues so open [one](/issues)
+4. A new browser tab should have been opened and the React App should be running. If that is not the case check both of the terminals' output for errors, if you are unable to troubleshoot the problem, I would be happy to address issues so open [one](/issues)
 
 ---
 
