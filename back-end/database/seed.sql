@@ -5,6 +5,7 @@ CREATE DATABASE advancedbasicsforweb;
 DROP TABLE IF EXISTS classes;
 CREATE TABLE classes (
     id SERIAL PRIMARY KEY NOT NULL,
+    order_id INT NOT NULL,
     title VARCHAR NOT NULL
 );
 
@@ -49,19 +50,19 @@ CREATE TABLE linked_lessons (
     FOREIGN KEY (class_id) REFERENCES classes (id) ON DELETE CASCADE
 );
 
-INSERT INTO classes (title)
-    VALUES('Section 1: SCSS and BEM'),
-    ('Section 2: Building Responsive Components'),
-    ('Section 3: UX for Asynchronous Components'),
-    ('Section 4: Testing Components with Jest'),
-    ('Section 5: Managing API calls and Caching'),
-    ('Section 6: Testing APIs with Jest and Supertest'),
-    ('Section 7: Session Storage, Local Storage, Cookies, and Cache'),
-    ('Section 8: Git 1'),
-    ('Section 9: Git 2'),
-    ('Section 10: SQL 1'),
-    ('Section 11: SQL 2'),
-    ('Section 12: Contributing to Open Source');
+INSERT INTO classes (order_id, title)
+    VALUES(1, 'Section 1: SCSS and BEM'),
+    (2, 'Section 2: Building Responsive Components'),
+    (3, 'Section 3: UX for Asynchronous Components'),
+    (4, 'Section 4: Testing Components with Jest'),
+    (5, 'Section 5: Managing API calls and Caching'),
+    (6, 'Section 6: Testing APIs with Jest and Supertest'),
+    (7, 'Section 7: Session Storage, Local Storage, Cookies, and Cache'),
+    (8, 'Section 8: Git 1'),
+    (9, 'Section 9: Git 2'),
+    (10, 'Section 10: SQL 1'),
+    (11, 'Section 11: SQL 2'),
+    (12, 'Section 12: Contributing to Open Source');
 
 INSERT INTO learning_objectives(class_id, objective_text)
     VALUES(1, 'Be able to Implement SCSS in a React Project'),

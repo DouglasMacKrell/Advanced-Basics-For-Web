@@ -13,9 +13,10 @@ function ClassList() {
         fetch("http://localhost:3001/api/classes/all")
         .then(response => response.json())
         .then(data => {
-            console.log(data)
-            setLoading(false)
-              setClassesOverview(data);
+                console.log(data)
+                let sortedClasses = data.sort((a, b) => a.order_id - b.order_id)
+                setLoading(false);
+                setClassesOverview(sortedClasses);
             });
     },[]);
     

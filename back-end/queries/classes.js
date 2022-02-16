@@ -34,7 +34,7 @@ const getClassById = async (id) => {
 const createClass = async (singleClass) => {
     console.log(singleClass)
     try {
-        let singleNewClass = await db.one('INSERT INTO classes(title) VALUES($1) RETURNING *', [singleClass.title]);
+        let singleNewClass = await db.one('INSERT INTO classes(order_id, title) VALUES($1, $2) RETURNING *', [singleClass.order_id, singleClass.title]);
         return singleNewClass;
     } catch (error) {
         return error;
@@ -106,7 +106,7 @@ const createLinkedLessons = async (linkedLessons) => {
 // PUT
 const updateClassTitle = async (id, singleClass) => {
     try {
-        const updatedClassTitle = await db.one("UPDATE classes SET title=$1 WHERE id=$2 RETURNING *", [singleClass.title, id])
+        const updatedClassTitle = await db.one("UPDATE classes SET order_id=$1, title=$2 WHERE id=$3 RETURNING *", [singleClass.order_id, singleClass.title, id])
         return updatedClassTitle
     } catch (error) {
         return error
