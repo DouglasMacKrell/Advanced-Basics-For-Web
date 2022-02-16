@@ -128,6 +128,19 @@ router.put("/source_code/:code_id", async (req, res) => {
   }
 });
 
+router.put("/outline/:outline_id", async (req, res) => {
+  const outlineId = req.params.outline_id;
+  try {
+    const updatedOutline = await classesQueries.updateOutline(
+      outlineId,
+      req.body
+    );
+    res.status(200).json(updatedOutline);
+  } catch (error) {
+    res.status(400).json({ error: error });
+  }
+});
+
 // delete a class by class title
 router.delete("/delete", async (req, res) => {
     const deletedClass = classesQueries.deleteClass(req.body)
@@ -136,28 +149,7 @@ router.delete("/delete", async (req, res) => {
     } else {
         res.status(404).json("Class not found")
     }
-})
+});
 
-// router.get("/season/:season_id", async (req, res, next) => {
-//   try {
-//     const seasonId = req.params.season_id;
-//     const allEpisodesBySeason = await episodesQueries.getAllEpisodesBySeasonId(
-//       seasonId
-//     );
-//     res.json({
-//       status: "success",
-//       message: `All episodes of season ${seasonId} retrieved!`,
-//       payload: allEpisodesBySeason,
-//     });
-//   } catch (err) {
-//     res.json({
-//       status: "failure",
-//       error: error,
-//       message: "Oops! All Errors!",
-//       payload: null,
-//     });
-//     throw error;
-//   }
-// });
 
 module.exports = router;

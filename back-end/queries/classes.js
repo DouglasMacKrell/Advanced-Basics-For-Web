@@ -146,6 +146,18 @@ const updateSourceCode = async (id, sourceCode) => {
   }
 };
 
+const updateOutline = async (id, outline) => {
+  try {
+    const updatedOutline = await db.one(
+      "UPDATE outline SET outline_url=$1, class_id=$2 WHERE id=$3 RETURNING *",
+      [outline.outline_url, outline.class_id, id]
+    );
+    return updatedOutline;
+  } catch (error) {
+    return error;
+  }
+};
+
 // DELETE
 const deleteClass = async (singleClass) => {
     try {
@@ -170,5 +182,6 @@ module.exports = {
     updateClassTitle,
     updateLearningObjective,
     updateVideoRecording,
-    updateSourceCode
+    updateSourceCode,
+    updateOutline
 };
