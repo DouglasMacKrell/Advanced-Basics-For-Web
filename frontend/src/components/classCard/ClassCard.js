@@ -25,11 +25,13 @@ function ClassCard(singleClass) {
         {fullClass.learning_objectives &&
           fullClass.learning_objectives.length > 0 && (
             <div className="classCard__objectives">
-                <p>Learning Objectives:</p>
+              <p>Learning Objectives:</p>
               <ol>
-                {fullClass.learning_objectives.map((obj) => {
-                  return <li key={obj.id}>{obj.objective_text}</li>;
-                })}
+                {fullClass.learning_objectives
+                  .sort((a, b) => a.order_id - b.order_id)
+                  .map((obj) => {
+                    return <li key={obj.id}>{obj.objective_text}</li>;
+                  })}
               </ol>
             </div>
           )}
@@ -51,13 +53,15 @@ function ClassCard(singleClass) {
         {fullClass.linked_lessons && fullClass.linked_lessons.length > 0 && (
           <div className="classCard__lessons">
             <ul>
-              {fullClass.linked_lessons.map((obj) => {
-                return (
-                  <li key={obj.id}>
-                    <a href={obj.link_url}>{obj.link_text}</a>
-                  </li>
-                );
-              })}
+              {fullClass.linked_lessons
+                .sort((a, b) => a.order_id - b.order_id)
+                .map((obj) => {
+                  return (
+                    <li key={obj.id}>
+                      <a href={obj.link_url}>{obj.link_text}</a>
+                    </li>
+                  );
+                })}
             </ul>
           </div>
         )}

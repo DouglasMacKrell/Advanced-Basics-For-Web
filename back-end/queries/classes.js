@@ -19,11 +19,11 @@ const getClassById = async (id) => {
     try {
         let fullClass = {}
         fullClass['class'] = await db.any('SELECT * FROM classes WHERE id=$1', [id]);
-        fullClass['learning_objectives'] = await db.any('SELECT id, objective_text FROM learning_objectives WHERE class_id=$1', [id]);
+        fullClass['learning_objectives'] = await db.any('SELECT id, order_id, objective_text FROM learning_objectives WHERE class_id=$1', [id]);
         fullClass['video_recording'] = await db.any('SELECT id, video_url FROM video_recording WHERE class_id=$1', [id]);
         fullClass['source_code'] = await db.any('SELECT id, code_url FROM source_code WHERE class_id=$1', [id]);
         fullClass['outline'] = await db.any('SELECT id, outline_url FROM outline WHERE class_id=$1', [id]);
-        fullClass['linked_lessons'] = await db.any('SELECT id, link_text, link_url FROM linked_lessons WHERE class_id=$1', [id]);
+        fullClass['linked_lessons'] = await db.any('SELECT id, order_id, link_text, link_url FROM linked_lessons WHERE class_id=$1', [id]);
         return fullClass
     } catch (error) {
         return error
@@ -43,9 +43,11 @@ const createClass = async (singleClass) => {
 
 const createLearningObjectives = async (learningObjectives) => {
     let classId = await db.any('SELECT id FROM classes WHERE title=$1', [learningObjectives.title]);
-    const cs = new pgp.helpers.ColumnSet(["class_id", "objective_text"], { table: "learning_objectives" });
+    const cs = new pgp.helpers.ColumnSet(["class_id", "order_id", "objective_text"], { table: "learning_objectives" });
+    let counter = 0;
     const values = learningObjectives.objective_texts.map((text) => {
-        return { "class_id": classId[0].id, "objective_text": text}
+        counter += 1
+        return { "class_id": classId[0].id, "order_id": counter, "objective_text": text}
     })
     const query = pgp.helpers.insert(values, cs);
     await db.none(query);
@@ -95,9 +97,11 @@ const createLinkedLessons = async (linkedLessons) => {
   let classId = await db.any("SELECT id FROM classes WHERE title=$1", [
     linkedLessons.title,
   ]);
-  const cs = new pgp.helpers.ColumnSet(["class_id", "link_text", "link_url"], {table: "linked_lessons",});
+  const cs = new pgp.helpers.ColumnSet(["class_id", "order_id", "link_text", "link_url"], {table: "linked_lessons",});
+  let counter = 0;
   const values = linkedLessons.links.map((obj) => {
-    return { class_id: classId[0].id, link_text: obj.link_text, link_url: obj.link_url};
+    counter += 1
+    return { class_id: classId[0].id, order_id: counter, link_text: obj.link_text, link_url: obj.link_url};
   });
   const query = pgp.helpers.insert(values, cs);
   await db.none(query);
@@ -115,7 +119,7 @@ const updateClassTitle = async (id, singleClass) => {
 
 const updateLearningObjective = async (id, learningObjective) => {
   try {
-    const updatedLearningObjective = await db.one("UPDATE learning_objectives SET objective_text=$1, class_id=$2 WHERE id=$3 RETURNING *", [learningObjective.objective_text, learningObjective.class_id, id])
+    const updatedLearningObjective = await db.one("UPDATE learning_objectives SET order_id=$1, objective_text=$2, class_id=$3 WHERE id=$4 RETURNING *", [learningObjective.order_id, learningObjective.objective_text, learningObjective.class_id, id])
     return updatedLearningObjective
   } catch (error) {
     return error
@@ -162,8 +166,8 @@ const updateOutline = async (id, outline) => {
 const updateLinkedLesson = async (id, linkedLesson) => {
   try {
     const updatedLinkedLesson = await db.one(
-      "UPDATE linked_lessons SET link_text=$1, link_url=$2, class_id=$3 WHERE id=$4 RETURNING *",
-      [linkedLesson.link_text, linkedLesson.link_url, linkedLesson.class_id, id]
+      "UPDATE linked_lessons SET order_id=$1, link_text=$2, link_url=$3, class_id=$4 WHERE id=$5 RETURNING *",
+      [linkedLesson.order_id, linkedLesson.link_text, linkedLesson.link_url, linkedLesson.class_id, id]
     );
     return updatedLinkedLesson;
   } catch (error) {

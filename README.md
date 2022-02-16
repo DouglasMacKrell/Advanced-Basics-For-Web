@@ -76,6 +76,7 @@ A single page application to display the data within a dynamic database accessed
 * Implement testing on both the front-end and back-end
 * Portal for Jordan to POST, PUT, and DELETE
 * Updating tables with a simple password to allow Jordan to securely POST, PUT, and DELETE to the database
+* DELETE routes/queries for all tables
 
 ## TECHNICAL MILESTONES
 
