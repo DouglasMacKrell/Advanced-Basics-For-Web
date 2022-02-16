@@ -4,6 +4,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef, useEffect } from "react";
 
+import ClassList from './components/classList/ClassList';
+
 function App() {
     let videoContainer = [
       "./closeup-coding.mp4",
@@ -86,6 +88,7 @@ function App() {
       </div>
       <div className="second-page">
         <h2 className="second-page__title">Archive</h2>
+        <ClassList />
       </div>
     </div>
   );
