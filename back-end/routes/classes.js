@@ -141,6 +141,19 @@ router.put("/outline/:outline_id", async (req, res) => {
   }
 });
 
+router.put("/linked_lesson/:link_id", async (req, res) => {
+  const linkedLessonId = req.params.link_id;
+  try {
+    const updatedLinkedLesson = await classesQueries.updateLinkedLesson(
+      linkedLessonId,
+      req.body
+    );
+    res.status(200).json(updatedLinkedLesson);
+  } catch (error) {
+    res.status(400).json({ error: error });
+  }
+});
+
 // delete a class by class title
 router.delete("/delete", async (req, res) => {
     const deletedClass = classesQueries.deleteClass(req.body)

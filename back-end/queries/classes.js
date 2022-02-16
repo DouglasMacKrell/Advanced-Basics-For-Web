@@ -158,6 +158,19 @@ const updateOutline = async (id, outline) => {
   }
 };
 
+
+const updateLinkedLesson = async (id, linkedLesson) => {
+  try {
+    const updatedLinkedLesson = await db.one(
+      "UPDATE linked_lessons SET link_text=$1, link_url=$2, class_id=$3 WHERE id=$4 RETURNING *",
+      [linkedLesson.link_text, linkedLesson.link_url, linkedLesson.class_id, id]
+    );
+    return updatedLinkedLesson;
+  } catch (error) {
+    return error;
+  }
+};
+
 // DELETE
 const deleteClass = async (singleClass) => {
     try {
@@ -183,5 +196,6 @@ module.exports = {
     updateLearningObjective,
     updateVideoRecording,
     updateSourceCode,
-    updateOutline
+    updateOutline,
+    updateLinkedLesson
 };
